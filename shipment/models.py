@@ -6,6 +6,7 @@ from accounts.models import CustomerUser
 
 class Ship(models.Model):
     user = models.ForeignKey(CustomerUser, on_delete=models.CASCADE)
+    username = models.CharField(max_length=100)
     of_type = models.CharField(max_length=100)
     weight = models.IntegerField()
     size = models.IntegerField()
