@@ -26,6 +26,7 @@ from accounts import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounts.urls')),
+    path('', include('shipment.urls')),
     # path('api-auth/',include('rest_framework.urls'))
 ]
 # urlpatterns += router.urls

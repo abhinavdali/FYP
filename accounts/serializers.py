@@ -1,5 +1,3 @@
-from dataclasses import field
-from lib2to3.pgen2 import driver
 from rest_framework import serializers, viewsets
 from .models import User, CustomerUser, DriverUser
 from django.contrib.auth import authenticate
