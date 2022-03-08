@@ -10,7 +10,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=100, unique=True) 
     phone = models.CharField(max_length=12, default="1233")
     license = models.CharField(max_length=100, null=True)
-    
+    vehicle_number = models.CharField(max_length=100, null=True)
 
 # Create your models here.
 
@@ -29,4 +29,5 @@ class DriverUser(models.Model):
     last_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=100)
     license =models.CharField(max_length=100)
+    vehicle_number = models.CharField(max_length=100, null=True)
     

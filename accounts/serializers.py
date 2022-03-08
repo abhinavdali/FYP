@@ -112,6 +112,7 @@ class DriverRegisterSerializer(serializers.ModelSerializer):
         driver.phone = validated_data['phone']
         if user.is_driver:
             driver.license = validated_data['license']
+            driver.vehicle_number = validated_data['vehicle_number']
         driver.save()
         return user
 
