@@ -1,4 +1,5 @@
 # Create your views here.
+from lib2to3.pgen2 import driver
 from urllib import response
 from rest_framework import serializers, viewsets
 from rest_framework import generics, permissions
@@ -51,12 +52,11 @@ class LoginAPI(KnoxLoginView):
         user = serializer.validated_data['user']
         user_id_main=user.id
         user_name=user.username
-        projects= User.objects.filter(username=user_name).values('username')
-        print(projects)
-        project_names=[User.objects.filter(username=a['username']).values('username','phone','first_name', "last_name", "email", "vehicle_number", "license") for a in projects]
+        customer= User.objects.filter(username=user_name).values('username')
+        customer_names=[User.objects.filter(username=a['username']).values('username','phone','first_name', "last_name", "email", "vehicle_number", "license") for a in customer]
         login(request, user)
         user_details = super(LoginAPI, self).post(request, format=None)
-        user_details.data["user"]= project_names
+        user_details.data["user"]= customer_names
         return Response({"data":user_details.data})
        
 
@@ -67,8 +67,13 @@ class DriverLoginAPI(KnoxLoginView):
         serializer = DriverLoginUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+        user_name=user.username
+        driver= User.objects.filter(username=user_name).values('username')
+        driver_names=[User.objects.filter(username=a['username']).values('username','phone','first_name', "last_name", "email", "vehicle_number", "license") for a in driver]
         login(request, user)
-        return super().post(request, format=None)
+        user_details = super(DriverLoginAPI, self).post(request, format=None)
+        user_details.data["user"]= driver_names
+        return Response({"data":user_details.data})
 
 
 
