@@ -13,7 +13,9 @@ class RegisterAPI(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        
         user = serializer.save()
+        
         return Response({
         "user": CustomerRegisterSerializer(user, context=self.get_serializer_context()).data,
         "token": AuthToken.objects.create(user)[1]
@@ -47,6 +49,7 @@ class LoginAPI(KnoxLoginView):
         serializer = CustomerLoginUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+        
         login(request, user)
         
         return super().post(request, format=None)
@@ -59,7 +62,6 @@ class DriverLoginAPI(KnoxLoginView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
-        
         return super().post(request, format=None)
 
 
