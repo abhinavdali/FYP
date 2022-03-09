@@ -126,6 +126,7 @@ class CustomerLoginUserSerializer(serializers.Serializer):
 
         if username and password:
             if User.objects.filter(username=username).exists():
+                
                 user = authenticate(request=self.context.get('request'),
                                     username=username, password=password)
             
@@ -138,16 +139,17 @@ class CustomerLoginUserSerializer(serializers.Serializer):
                 msg = {'detail': 'Username is not registered.',
                        'register': False}
                 raise serializers.ValidationError(msg)
+            
 
             if not user:
                 msg = {
                     'detail': 'Unable to log in with provided credentials.', 'register': True}
                 raise serializers.ValidationError(msg, code='authorization')
-
+            
         else:
             msg = 'Must include "username" and "password".'
             raise serializers.ValidationError(msg, code='authorization')
-
+        
         attrs['user'] = user
         return attrs
 
@@ -173,6 +175,11 @@ class DriverLoginUserSerializer(serializers.Serializer):
             if not user.is_driver:
                 msg = {'detail': 'Username is not registered.',
                        'register': False}
+                raise serializers.ValidationError(msg)
+                
+            if not user.is_approved:
+                msg = {'detail': 'User is not approved.',
+                   'register': False}
                 raise serializers.ValidationError(msg)
 
             if not user:

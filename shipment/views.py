@@ -12,6 +12,7 @@ class Shipment(generics.GenericAPIView):
         data = JSONParser().parse(request)
         serializer = ShipSerializer(data = data)
         if serializer.is_valid():
+            serializer.user = request.user
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
