@@ -126,14 +126,19 @@ class CustomerLoginUserSerializer(serializers.Serializer):
 
         if username and password:
             if User.objects.filter(username=username).exists():
-                
                 user = authenticate(request=self.context.get('request'),
                                     username=username, password=password)
-            
+                
+                
             else:
                 msg = {'detail': 'Username is not registered.',
                        'register': False}
                 raise serializers.ValidationError(msg)
+
+            if not user:
+                msg = {
+                    'detail': 'Unable to log in with provided credentials.', 'register': True}
+                raise serializers.ValidationError(msg, code='authorization')
 
             if not user.is_customer:
                 msg = {'detail': 'Username is not registered.',
@@ -141,10 +146,7 @@ class CustomerLoginUserSerializer(serializers.Serializer):
                 raise serializers.ValidationError(msg)
             
 
-            if not user:
-                msg = {
-                    'detail': 'Unable to log in with provided credentials.', 'register': True}
-                raise serializers.ValidationError(msg, code='authorization')
+            
             
         else:
             msg = 'Must include "username" and "password".'
@@ -172,20 +174,22 @@ class DriverLoginUserSerializer(serializers.Serializer):
                        'register': False}
                 raise serializers.ValidationError(msg)
 
+            if not user:
+                msg = {
+                    'detail': 'Unable to log in with provided credentials.', 'register': True}
+                raise serializers.ValidationError(msg, code='authorization')
+
             if not user.is_driver:
                 msg = {'detail': 'Username is not registered.',
                        'register': False}
                 raise serializers.ValidationError(msg)
-                
+
             if not user.is_approved:
                 msg = {'detail': 'User is not approved.',
                    'register': False}
                 raise serializers.ValidationError(msg)
 
-            if not user:
-                msg = {
-                    'detail': 'Unable to log in with provided credentials.', 'register': True}
-                raise serializers.ValidationError(msg, code='authorization')
+            
 
         else:
             msg = 'Must include "username" and "password".'

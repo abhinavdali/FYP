@@ -1,4 +1,5 @@
 # Create your views here.
+from urllib import response
 from rest_framework import serializers, viewsets
 from rest_framework import generics, permissions
 from rest_framework.response import Response
@@ -13,7 +14,6 @@ class RegisterAPI(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        
         user = serializer.save()
         
         return Response({
@@ -49,10 +49,16 @@ class LoginAPI(KnoxLoginView):
         serializer = CustomerLoginUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        
+        user_id_main=user.id
+        user_name=user.username
+        projects= User.objects.filter(username=user_name).values('username')
+        print(projects)
+        project_names=[User.objects.filter(username=a['username']).values('username','phone','first_name', "last_name", "email", "vehicle_number", "license") for a in projects]
         login(request, user)
-        
-        return super().post(request, format=None)
+        user_details = super(LoginAPI, self).post(request, format=None)
+        user_details.data["user"]= project_names
+        return Response({"data":user_details.data})
+       
 
 class DriverLoginAPI(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
