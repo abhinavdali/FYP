@@ -6,4 +6,16 @@ class ShipSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ship
         fields = "__all__"
-    
+
+
+
+
+
+
+
+
+
+
+
+
+

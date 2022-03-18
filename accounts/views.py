@@ -58,8 +58,8 @@ class LoginAPI(KnoxLoginView):
         user_details = super(LoginAPI, self).post(request, format=None)
         user_details.data["user"]= customer_names
         return Response({"data":user_details.data})
-       
 
+       
 class DriverLoginAPI(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
 

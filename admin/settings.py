@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
     "accounts",
-    "shipment"
+    "shipment",
+    "pricing"
 ]
 
 MIDDLEWARE = [
