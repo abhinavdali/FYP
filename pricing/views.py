@@ -6,7 +6,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework import generics, permissions
 
 # Create your views here.
-class Pricing(generics.GenericAPIView):
+class PriceView(generics.GenericAPIView):
     serializer_class = Pricing
     def get(self, request, *args, **kwargs):
         posts = Pricing.objects.all()

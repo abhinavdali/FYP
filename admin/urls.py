@@ -27,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounts.urls')),
     path('', include('shipment.urls')),
+    path('', include('pricing.urls')),
     # path('api-auth/',include('rest_framework.urls'))
 ]
 # urlpatterns += router.urls
