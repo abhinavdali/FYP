@@ -8,7 +8,7 @@ TYPE_CHOICES = (
 )
 
 WEIGHT_CHOICE = (
-    ('Less than 1 kg', '>1KG'),
+    ('Less than 1 kg', '<1KG'),
     ('1-4kg', '1-4 KG'),
     ('5-9 kg','5-9 KG'),
     ('10-19 kg','10-19 KG',),

@@ -1,5 +1,3 @@
-from multiprocessing import context
-from django.shortcuts import render
 from .serializer import ShipSerializer
 from .models import Ship
 from django.http import JsonResponse

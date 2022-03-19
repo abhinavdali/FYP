@@ -6,11 +6,16 @@ from accounts.models import CustomerUser, User
 
 class Ship(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    username = models.CharField(max_length=100)
     of_type = models.CharField(max_length=100)
     weight = models.IntegerField()
     size = models.IntegerField()
     price = models.IntegerField()
+    receiver = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=100)
+    start = models.CharField(max_length=100)
+    destination = models.CharField(max_length=100)
+    status = models.CharField(max_length=100)
+
 
 
 

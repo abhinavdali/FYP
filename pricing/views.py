@@ -11,4 +11,4 @@ class PriceView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         posts = Pricing.objects.all()
         serializer = PricingSerializer(posts, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return JsonResponse({"data": serializer.data},safe=False)
