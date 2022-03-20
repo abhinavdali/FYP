@@ -6,7 +6,7 @@ class ShipSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ship
-        fields = ("user", "username", "of_type", "weight", "size", "price")
+        fields = ("__all__")
 
 
 

@@ -15,7 +15,7 @@ class Ship(models.Model):
     start = models.CharField(max_length=100)
     destination = models.CharField(max_length=100)
     status = models.CharField(max_length=100)
-
+    email = models.EmailField(max_length=100)
 
 
 
