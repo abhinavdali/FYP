@@ -1,3 +1,4 @@
+import uuid
 from django.conf import settings
 from django.db import models
 from accounts.models import CustomerUser, User
@@ -16,6 +17,7 @@ class Ship(models.Model):
     destination = models.CharField(max_length=100)
     status = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
+    tracking_number = models.UUIDField(default=uuid.uuid4, editable=False)
 
 
 
