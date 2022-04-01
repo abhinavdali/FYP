@@ -8,15 +8,18 @@ from accounts.models import CustomerUser, User
 class Ship(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     of_type = models.CharField(max_length=100)
-    weight = models.IntegerField()
-    size = models.IntegerField()
-    price = models.IntegerField()
+    weight = models.CharField(max_length=100)
+    size = models.CharField(max_length=100)
+    price = models.CharField(max_length=100)
     receiver = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=100)
+    package_type = models.CharField(max_length=100)
     start = models.CharField(max_length=100)
     destination = models.CharField(max_length=100)
     status = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
+    email = models.CharField(max_length=100)
+    delivery_date = models.CharField(max_length=100)
+    payment_type = models.CharField(max_length=100)
     tracking_number = models.UUIDField(default=uuid.uuid4, editable=False)
 
 

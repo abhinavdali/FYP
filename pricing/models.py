@@ -19,7 +19,7 @@ WEIGHT_CHOICE = (
 
 
 SIZE_CHOICE = (
-    ('less than 1 m', '<1 m'),
+    ('Less than 1 m', '<1 m'),
     ('1-4 m', '1-4 M'),
     ('4-9 m','4-9 M'), 
     ('10-15 m', '10-15 M'),

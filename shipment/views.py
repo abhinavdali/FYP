@@ -20,5 +20,16 @@ class Shipment(generics.GenericAPIView):
     
     def get(self, request, *args, **kwargs):
         posts = Ship.objects.all()
+        print(posts)
         serializer = ShipSerializer(posts, many=True)
         return JsonResponse(serializer.data, safe=False)
+
+class ShipmentView(generics.GenericAPIView):
+    queryset = Ship.objects.all()
+    serializer_class = Ship
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        posts = Ship.objects.filter(user=request.user)
+        print(posts)
+        serializer = ShipSerializer(posts, many=True)
+        return JsonResponse({"data":serializer.data}, safe=False) 
