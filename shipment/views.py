@@ -1,3 +1,4 @@
+from functools import partial
 from .serializer import ShipSerializer
 from .models import Ship
 from django.http import JsonResponse
@@ -20,6 +21,12 @@ class Shipment(generics.GenericAPIView):
     
     def get(self, request, *args, **kwargs):
         posts = Ship.objects.all()
+        serializer = ShipSerializer(posts, many=True)
+        return JsonResponse(serializer.data, safe=False)
+    
+    def patch(self, request, *args, **kwargs):
+        tracking_no = request.data['tracking_number']
+        posts = Ship.objects.filter(tracking_number = tracking_no)
         print(posts)
         serializer = ShipSerializer(posts, many=True)
         return JsonResponse(serializer.data, safe=False)
@@ -33,3 +40,14 @@ class ShipmentView(generics.GenericAPIView):
         print(posts)
         serializer = ShipSerializer(posts, many=True)
         return JsonResponse({"data":serializer.data}, safe=False) 
+
+
+class ShipmentUpdate(generics.GenericAPIView):
+    queryset = Ship.objects.all()
+    serializer_class = Ship
+    permission_classes = [permissions.IsAuthenticated]
+    def patch(self, request,tracking):
+        posts = Ship.objects.get(tracking_number = tracking)
+        posts.status = "On Way"
+        posts.save()
+        return JsonResponse({"data":posts.status}, safe=False)
