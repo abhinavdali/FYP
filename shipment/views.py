@@ -51,3 +51,12 @@ class ShipmentUpdate(generics.GenericAPIView):
         posts.status = "On Way"
         posts.save()
         return JsonResponse({"data":posts.status}, safe=False)
+
+class ShipmentDelete(generics.GenericAPIView):
+    queryset = Ship.objects.all()
+    serializer_class = Ship
+    permission_classes = [permissions.IsAuthenticated]
+    def delete(self, request, tracking):
+        posts = Ship.objects.get(tracking_number = tracking)
+        posts.delete()
+        return JsonResponse({"data":"deleted"}, safe=False)
