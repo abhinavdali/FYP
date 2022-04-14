@@ -1,4 +1,4 @@
-from .views import RegisterAPI, DriverRegisterAPI, UserAPI
+from .views import RegisterAPI, DriverRegisterAPI, UpdateProfile, UserAPI
 from knox import views as knox_views
 from .views import LoginAPI, UserAPI, DriverLoginAPI
 from django.urls import path
@@ -11,4 +11,5 @@ urlpatterns = [
     path('api/login/driver', DriverLoginAPI.as_view(), name='login'),
     path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
     path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
+    path('api/update/<username>', UpdateProfile.as_view(), name='update'),
 ]

@@ -6,7 +6,7 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
 from .models import User, CustomerUser
-from .serializers import CustomerRegisterSerializer, DriverRegisterSerializer, CustomerLoginUserSerializer, DriverLoginUserSerializer
+from .serializers import CustomerRegisterSerializer, DriverRegisterSerializer, CustomerLoginUserSerializer, DriverLoginUserSerializer, UserSerializer
 
 # Register API
 class RegisterAPI(generics.GenericAPIView):
@@ -76,7 +76,20 @@ class DriverLoginAPI(KnoxLoginView):
         return Response({"data":user_details.data})
 
 
-
+class UpdateProfile(generics.GenericAPIView):
+    serializer_class = UserSerializer
+    model = User
+    def get(self, request, username,*args, **kwargs):
+        post= User.objects.get(username=username)
+        print(post.first_name)
+        data = request.data
+        post.first_name = data.get('first_name', post.first_name)
+        post.last_name = data.get('last_name', post.last_name)
+        post.phone = data.get('phone', post.phone)
+        post.email = data.get('email', post.email)
+        post.save()
+        return Response({"data":UserSerializer(post, context=self.get_serializer_context()).data}) 
+        
 class UserAPI(generics.RetrieveAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticated, ]

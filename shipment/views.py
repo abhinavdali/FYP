@@ -1,6 +1,6 @@
-from functools import partial
+from accounts.models import DriverUser
 from .serializer import ShipSerializer
-from .models import Ship
+from .models import Ship, TrackingModel
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import generics, permissions
@@ -21,7 +21,14 @@ class Shipment(generics.GenericAPIView):
     
     def get(self, request, *args, **kwargs):
         posts = Ship.objects.all()
+        
+
         serializer = ShipSerializer(posts, many=True)
+
+        """  for d in serializer.data:
+            if d['assigned_driver'] != None:
+                driver = DriverUser.objects.get(user = d['assigned_driver'])
+                driver. """
         return JsonResponse(serializer.data, safe=False)
     
     def patch(self, request, *args, **kwargs):
@@ -37,7 +44,6 @@ class ShipmentView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request, *args, **kwargs):
         posts = Ship.objects.filter(user=request.user)
-        print(posts)
         serializer = ShipSerializer(posts, many=True)
         return JsonResponse({"data":serializer.data}, safe=False) 
 
@@ -60,3 +66,18 @@ class ShipmentDelete(generics.GenericAPIView):
         posts = Ship.objects.get(tracking_number = tracking)
         posts.delete()
         return JsonResponse({"data":"deleted"}, safe=False)
+
+
+class Tracking(generics.GenericAPIView):
+    queryset = TrackingModel.objects.all()
+    serializer_class = Ship
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        posts = Ship.objects.get(tracking_number = kwargs['tracking'])
+        print(posts.assigned_driver)
+        if posts.assigned_driver != None:
+            driver = DriverUser.objects.get(user = posts.assigned_driver)
+            posts.phone = driver.phone
+            posts.driver_name = driver.first_name 
+            posts.save()
+        return JsonResponse({"data":"sone"}, safe=False)
